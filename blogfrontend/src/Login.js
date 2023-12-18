@@ -4,9 +4,30 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Login credentials', { username, password });
+    const user = { username, password };
+
+    try {
+      const response = await fetch('http://localhost:2887/api/front/login/', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      });
+      const data = await response.json();
+      console.log('Response from server:', data);
+
+      if (data.code === 0) {
+        console.log('Login successful:', data.data);
+        // 重定向到首页
+        window.location.href = '/'; // 替换为您的首页 URL
+      } else {
+        alert('Login failed: ' + data.msg);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred while logging in');
+    }
   };
 
   const styles = {
