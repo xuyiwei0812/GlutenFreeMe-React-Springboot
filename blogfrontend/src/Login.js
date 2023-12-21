@@ -19,8 +19,7 @@ const Login = () => {
 
       if (data.code === 0) {
         console.log('Login successful:', data.data);
-        // 重定向到首页
-        window.location.href = '/'; // 替换为您的首页 URL
+        window.location.href = '/';
       } else {
         alert('Login failed: ' + data.msg);
       }
