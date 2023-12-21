@@ -16,6 +16,7 @@ import java.util.ArrayList;
 @RequestMapping("/api/blog")
 public class BlogController {
 
+
     @Resource
     BlogService blogService;
 
