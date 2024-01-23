@@ -16,4 +16,8 @@ public class LoginService {
         if(loginMapper.login(user.getUsername(),user.getPassword())==null) return false;
         else return true;
     }
+
+    public Boolean register(User user){
+        return loginMapper.register(user.getUsername(),user.getPassword());
+    }
 }

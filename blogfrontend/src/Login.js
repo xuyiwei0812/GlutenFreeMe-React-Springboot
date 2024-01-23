@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -53,12 +54,19 @@ const Login = () => {
     button: {
       width: '100%',
       padding: '10px',
-      backgroundColor: '#f1356d',
+      backgroundColor: '#00bfa5',
       color: 'white',
       border: 'none',
       borderRadius: '4px',
       cursor: 'pointer',
     },
+    link: {
+      display: 'block',
+      margin: '0 auto',
+      width: 'fit-content',
+      padding: '10px',
+      textAlign: 'center',
+    }
   };
 
   return (
@@ -85,6 +93,7 @@ const Login = () => {
             />
           </div>
           <button type="submit" style={styles.button}>Login</button>
+          <a href="/register" style={styles.link}>no account? register</a>
         </form>
       </div>
   );

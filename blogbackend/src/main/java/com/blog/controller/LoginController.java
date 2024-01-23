@@ -32,4 +32,18 @@ public class LoginController {
         }
     }
 
+    @ResponseBody
+    @PostMapping("/register")
+    public Response<Integer> register(@RequestBody User user){
+        System.out.println("2"+user.getUsername());
+        if(loginService.register(user)==true) {
+            System.out.println("login success");
+            return Response.createSuc(user.getUserId());
+        }
+        else {
+            System.out.println("login failed");
+            return Response.createErr("fail");
+        }
+    }
+
 }

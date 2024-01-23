@@ -5,6 +5,9 @@ import Create from './Create'
 import BlogDetails from './BlogDetails';
 import NotFound from "./NotFound";
 import Login from "./Login";
+import React from 'react';
+import Register from "./Register";
+import FrontPage from "./FrontPage";
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
         <div className="content">
           <Switch>
             <Route exact path="/">
+              <FrontPage />
+            </Route>
+            <Route exact path="/home">
               <Home />
             </Route>
             <Route path="/create">
@@ -24,6 +30,9 @@ function App() {
             </Route>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
             </Route>
             <Route path="*">
               <NotFound />
