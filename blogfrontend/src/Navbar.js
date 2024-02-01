@@ -114,7 +114,7 @@ const NavBar = () => {
                     <a href="/recipes" style={styles.link}>RECIPES</a>
                     <div
                         style={{...styles.dropdown, display: isRecipesDropdownVisible ? 'block' : 'none'}}
-                        onMouseEnter={showRecipesDropdown}   // 鼠标在下拉菜单上保持下拉菜单显示
+                        onMouseEnter={showRecipesDropdown}  // 鼠标在下拉菜单上保持下拉菜单显示
                     >
                         <div style={styles.dropdownColumn}>
                             <div style={styles.dropdownColumnHeader}>MEALS & COURSES</div>
