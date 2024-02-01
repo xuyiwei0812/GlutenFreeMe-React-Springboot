@@ -6,8 +6,8 @@ const slideImages = ['img/4.jpg', 'img/2.jpg', 'img/5.jpg']; // 根据实际情�
 const styles = {
     carouselContainer: {
         display: 'flex',
-        justifyContent: 'center', // 这会使轮播盒子居中
-        alignItems: 'center',
+        justifyContent: 'center', // 左右对齐
+        alignItems: 'center',//垂直居中对齐
         width: '100vw', // 宽度占据视口的100%
         overflow: 'hidden', // 防止内容溢出
         position: 'relative',
@@ -63,7 +63,7 @@ const Carousel = () => {
         }, 5000); // 每5秒切换到下一张幻灯片
 
         return () => clearInterval(timer); // 清除定时器
-    }, [slides.length]);
+    }, [slides.length]);//当达到最后一张幻灯片后，这个表达式会把索引重置为0，从而回到第一张幻灯片
 
     const nextSlide = () => {
         setCurrentSlide((currentSlide + 1) % slides.length);

@@ -8,6 +8,9 @@ import Login from "./Login";
 import React from 'react';
 import Register from "./Register";
 import FrontPage from "./FrontPage";
+import Recipes from "./Recipes";
+import RecipeDetails from "./RecipeDetails";
+import FilteredRecipe from "./FilteredRecipes";
 
 function App() {
   return (
@@ -33,6 +36,15 @@ function App() {
             </Route>
             <Route path="/register">
               <Register />
+            </Route>
+            <Route exact path="/recipes">
+              <Recipes />
+            </Route>
+            <Route path="/recipes/:id">
+              <RecipeDetails />
+            </Route>
+            <Route path="/filtered/:label">
+              <FilteredRecipe />
             </Route>
             <Route path="*">
               <NotFound />
