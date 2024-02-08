@@ -119,8 +119,8 @@ const NavBar = () => {
                         <div style={styles.dropdownColumn}>
                             <div style={styles.dropdownColumnHeader}>MEALS & COURSES</div>
                             <div style={styles.dropdownContent} onClick={() => handleLabelClick('breakfast') }>Breakfast</div>
+                            <div style={styles.dropdownContent} onClick={() => handleLabelClick('dinner')}>Dinner</div>
                             <div style={styles.dropdownContent} onClick={() => handleLabelClick('dessert')}>Dessert</div>
-                            <div style={styles.dropdownContent} onClick={() => handleLabelClick('family meals')}>Family meals</div>
                         </div>
                         <div style={styles.dropdownColumn}>
                             <div style={styles.dropdownColumnHeader}>MAIN INGREDIENT</div>
@@ -142,20 +142,20 @@ const NavBar = () => {
                 >
                     <div style={styles.dropdownColumn}>
                         <div style={styles.dropdownColumnHeader}>STATE/TERRITORY</div>
-                        <a href="/" style={styles.dropdownContent}>VIC</a>
-                        <a href="/" style={styles.dropdownContent}>NSW</a>
-                        <a href="/" style={styles.dropdownContent}>QLD</a>
-                        <a href="/" style={styles.dropdownContent}>WA</a>
-                        <a href="/" style={styles.dropdownContent}>ACT</a>
-                        <a href="/" style={styles.dropdownContent}>SA</a>
-                        <a href="/" style={styles.dropdownContent}>TAS</a>
-                        <a href="/" style={styles.dropdownContent}>NT</a>
+                        <div href="/" style={styles.dropdownContent}>VIC</div>
+                        <div href="/" style={styles.dropdownContent}>NSW</div>
+                        <div href="/" style={styles.dropdownContent}>QLD</div>
+                        <div href="/" style={styles.dropdownContent}>WA</div>
+                        <div href="/" style={styles.dropdownContent}>ACT</div>
+                        <div href="/" style={styles.dropdownContent}>SA</div>
+                        <div href="/" style={styles.dropdownContent}>TAS</div>
+                        <div href="/" style={styles.dropdownContent}>NT</div>
                     </div>
                     <div style={styles.dropdownColumn}>
                         <div style={styles.dropdownColumnHeader}>TYPE</div>
-                        <a href="/meat" style={styles.dropdownContent}>Cafe</a>
-                        <a href="/vegetables" style={styles.dropdownContent}>Fine Diner</a>
-                        <a href="/eggs" style={styles.dropdownContent}>Bar</a>
+                        <div href="/meat" style={styles.dropdownContent}>Cafe</div>
+                        <div href="/vegetables" style={styles.dropdownContent}>Fine Diner</div>
+                        <div href="/eggs" style={styles.dropdownContent}>Bar</div>
                     </div>
                 </div>
                 </div>
