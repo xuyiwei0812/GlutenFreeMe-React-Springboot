@@ -1,6 +1,7 @@
 import Navbar from './Navbar';
 import Home from './Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { AuthProvider } from './AuthContext';
 import Create from './Create'
 import BlogDetails from './BlogDetails';
 import NotFound from "./NotFound";
@@ -14,6 +15,7 @@ import FilteredRecipe from "./FilteredRecipes";
 
 function App() {
   return (
+      <AuthProvider>
     <Router>
       <div className="App">
         <Navbar />
@@ -53,6 +55,7 @@ function App() {
         </div>
       </div>
     </Router>
+      </AuthProvider>
   );
 }
 

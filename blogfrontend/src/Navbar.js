@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const styles = {
     navbar: {
@@ -58,7 +59,7 @@ const styles = {
         display: 'none',
         position: 'absolute',
         backgroundColor: '#00bfa5',
-        minWidth: '400px',
+        minWidth: '250px',
         boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)',
         zIndex: 1,
         top: '100%',
@@ -76,6 +77,12 @@ const styles = {
         padding: '10px',
         boxSizing: 'border-box',
     },
+    dropdownColumn2: {
+        float: 'left',
+        width: '100%',
+        padding: '10px',
+        boxSizing: 'border-box',
+    },
     dropdownColumnHeader: {
         marginBottom: '10px',
         fontWeight: 'bold',
@@ -83,6 +90,9 @@ const styles = {
 };
 
 const NavBar = () => {
+
+    const { auth, logout } = useAuth();
+
     const [isRecipesDropdownVisible, setIsRecipesDropdownVisible] = useState(false);
     const [isRestaurantsDropdownVisible, setIsRestaurantsDropdownVisible] = useState(false);
 
@@ -99,6 +109,11 @@ const NavBar = () => {
         history.push(`/filtered/${label}`);
     };
 
+    const handleLogout = () => {
+        logout();
+        history.push('/login');
+    };
+
     return (
         <nav style={styles.navbar}>
             <div style={styles.navbarBrand}>
@@ -111,7 +126,7 @@ const NavBar = () => {
                     onMouseEnter={showRecipesDropdown}
                     onMouseLeave={hideRecipesDropdown}
                 >
-                    <a href="/recipes" style={styles.link}>RECIPES</a>
+                    <a href="/recipes" style={styles.link}>DISCOVER</a>
                     <div
                         style={{...styles.dropdown, display: isRecipesDropdownVisible ? 'block' : 'none'}}
                         onMouseEnter={showRecipesDropdown}  // 鼠标在下拉菜单上保持下拉菜单显示
@@ -135,32 +150,25 @@ const NavBar = () => {
                     onMouseEnter={showRestaurantsDropdown}
                     onMouseLeave={hideRestaurantsDropdown}
                 >
-                <a href="/restaurants" style={{...styles.link, ...styles.restaurantsLink}}>RESTAURANTS</a>
+                <a href="/restaurants" style={{...styles.link, ...styles.restaurantsLink}}>MY HOME</a>
                 <div
                     style={{...styles.dropdown2, display: isRestaurantsDropdownVisible ? 'block' : 'none'}}
                     onMouseEnter={showRestaurantsDropdown}  // 鼠标在下拉菜单上保持下拉菜单显示
                 >
-                    <div style={styles.dropdownColumn}>
-                        <div style={styles.dropdownColumnHeader}>STATE/TERRITORY</div>
-                        <div href="/" style={styles.dropdownContent}>VIC</div>
-                        <div href="/" style={styles.dropdownContent}>NSW</div>
-                        <div href="/" style={styles.dropdownContent}>QLD</div>
-                        <div href="/" style={styles.dropdownContent}>WA</div>
-                        <div href="/" style={styles.dropdownContent}>ACT</div>
-                        <div href="/" style={styles.dropdownContent}>SA</div>
-                        <div href="/" style={styles.dropdownContent}>TAS</div>
-                        <div href="/" style={styles.dropdownContent}>NT</div>
-                    </div>
-                    <div style={styles.dropdownColumn}>
-                        <div style={styles.dropdownColumnHeader}>TYPE</div>
-                        <div href="/meat" style={styles.dropdownContent}>Cafe</div>
-                        <div href="/vegetables" style={styles.dropdownContent}>Fine Diner</div>
-                        <div href="/eggs" style={styles.dropdownContent}>Bar</div>
+                    <div style={styles.dropdownColumn2}>
+                        <div href="/" style={styles.dropdownContent}>MY FAV RECIPES</div>
+                        <div href="/" style={styles.dropdownContent}>MY UPLOADED RECIPES</div>
                     </div>
                 </div>
                 </div>
-                <a href="/my-home" style={styles.link}>MY HOME</a>
-                <a href="/login" style={styles.link}>LOG IN</a>
+                {auth ? (
+                    <React.Fragment>
+                        <span style={styles.link}>{auth.username}</span> {/* Display the username */}
+                        <a href="/login" onClick={handleLogout} style={styles.link}>LOG OUT</a>
+                    </React.Fragment>
+                ) : (
+                    <a href="/login" style={styles.link}>LOG IN</a>
+                )}
                 <button style={styles.searchButton}>SEARCH</button>
             </div>
         </nav>

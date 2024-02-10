@@ -28,11 +28,11 @@ const styles = {
 };
 
 const Recipe = ({ recipe }) => {
-    const history = useHistory(); // 使用 useHistory 钩子
+    const history = useHistory();
 
     // 点击处理函数
     const handleClick = () => {
-        history.push(`/recipes/${recipe.recipeId}`); // 假设每个recipe对象都有一个唯一的id
+        history.push(`/recipes/${recipe.recipeId}`);
     };
 
     return (

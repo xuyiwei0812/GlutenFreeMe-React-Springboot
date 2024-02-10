@@ -1,5 +1,6 @@
 package com.blog.service;
 
+import com.blog.bean.Favorite;
 import com.blog.bean.Recipe;
 import com.blog.bean.RecipeLabels;
 import com.blog.bean.RecipeWithLabels;
@@ -65,6 +66,14 @@ public class RecipeService {
         return recipeWithLabelsList;
     }
 
+    //Favorite
+    public Boolean favoriteRecipe(Favorite favorite){
+        return recipeMapper.favoriteRecipe(favorite);
+    }
+
+    public Boolean unfavoriteRecipe(Favorite favorite){
+        return recipeMapper.unfavoriteRecipe(favorite);
+    }
 }
 
 

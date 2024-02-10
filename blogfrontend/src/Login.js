@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import React from 'react';
+import { useAuth } from './AuthContext';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const history = useHistory();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const user = { username, password };
 
     try {
+      console.log('1111');
       const response = await fetch('http://localhost:2887/api/front/login/', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -20,7 +25,9 @@ const Login = () => {
 
       if (data.code === 0) {
         console.log('Login successful:', data.data);
-        window.location.href = '/';
+        login(data.data); // Update the auth context with the logged in user
+        sessionStorage.setItem('user', JSON.stringify(data.data));
+        history.push('/');
       } else {
         alert('Login failed: ' + data.msg);
       }

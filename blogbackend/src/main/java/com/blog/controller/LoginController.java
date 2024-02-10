@@ -20,11 +20,12 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/login")
-    public Response<Integer> login(@RequestBody User user){
+    public Response<User> login(@RequestBody User user){
         System.out.println("1"+user.getUsername());
-        if(loginService.login(user)==true) {
+        User userWithId = loginService.login(user);
+        if(userWithId!=null) {
             System.out.println("login success");
-            return Response.createSuc(user.getUserId());
+            return Response.createSuc(userWithId);
         }
         else {
             System.out.println("login failed");

@@ -12,9 +12,9 @@ public class LoginService {
     @Resource
     LoginMapper loginMapper;
 
-    public Boolean login(User user){
-        if(loginMapper.login(user.getUsername(),user.getPassword())==null) return false;
-        else return true;
+    public User login(User user){
+        User userWithId = loginMapper.login(user.getUsername(),user.getPassword());
+        return userWithId;
     }
 
     public Boolean register(User user){

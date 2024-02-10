@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import com.blog.bean.Blog;
+import com.blog.bean.Favorite;
 import com.blog.bean.RecipeWithLabels;
 import com.blog.bean.Response;
 import com.blog.service.RecipeService;
@@ -24,7 +25,7 @@ public class RecipeController {
     public Response<ArrayList<RecipeWithLabels>> getAllRecipes(){
         ArrayList<RecipeWithLabels> recipeWithLabelsList = recipeService.getAllRecipesWithLabels();
         if(recipeWithLabelsList!=null) {
-            System.out.println("all blogs:"+recipeWithLabelsList);
+            //System.out.println("all:"+recipeWithLabelsList);
             return Response.createSuc(recipeWithLabelsList);
         }
         else{
@@ -38,7 +39,7 @@ public class RecipeController {
         System.out.println("getOneRecipeWithLabels"+recipeId);
         RecipeWithLabels recipeWithLabels = recipeService.getOneRecipeWithLabels(recipeId);
         if(recipeWithLabels != null) {
-            System.out.println("blog:"+recipeWithLabels);
+            //System.out.println("recipe:"+recipeWithLabels);
             return Response.createSuc(recipeWithLabels);
         }
         else{
@@ -52,7 +53,7 @@ public class RecipeController {
         System.out.println("label"+label);
         ArrayList<RecipeWithLabels> recipeWithLabelsList = recipeService.getRecipesWithACertainLabel(label);
         if(recipeWithLabelsList!=null) {
-            System.out.println("all blogs:"+recipeWithLabelsList);
+            //System.out.println("all:"+recipeWithLabelsList);
             return Response.createSuc(recipeWithLabelsList);
         }
         else{
@@ -60,4 +61,18 @@ public class RecipeController {
         }
     }
 
+    @ResponseBody
+    @PostMapping("/favoriteRecipe")
+    public Response<Boolean> favoriteRecipe(@RequestBody Favorite favorite){
+        Boolean b = recipeService.favoriteRecipe(favorite);
+        return Response.createSuc(b);
+    }
+
+    @ResponseBody
+    @PostMapping("/unfavoriteRecipe")
+    public Response<Boolean> unfavoriteRecipe(@RequestBody Favorite favorite){
+        System.out.println("fav"+favorite.getRecipeId());
+        Boolean b = recipeService.unfavoriteRecipe(favorite);
+        return Response.createSuc(b);
+    }
 }

@@ -54,9 +54,38 @@ const styles = {
 };
 
 const RecipeWithLabelsComponent = ({ recipe }) => {
-    console.log(recipe);
+    //console.log(recipe);
+    const [isFavorite, setIsFavorite] = useState(false); // State to track if the recipe is favorited
+    const userObject = JSON.parse(sessionStorage.getItem('user'));
+
+    // Function to handle the favorite/unfavorite action
+    const toggleFavorite = async () => {
+        console.log("user"+userObject.userId);
+        console.log("recipe"+recipe.recipeId);
+
+        // Define the endpoint, depending on the current favorite state
+        const endpoint = isFavorite ? '/unfavoriteRecipe' : '/favoriteRecipe';
+        const favoriteData = { recipeId: recipe.recipeId, userId: userObject.userId };
+
+        try {
+            const response = await fetch(`http://localhost:2887/api/recipe${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(favoriteData)
+            });
+            const data = await response.json();
+            if (data.code === 0) {
+                setIsFavorite(!isFavorite); // Toggle the favorite state on successful response
+            } else {
+                throw new Error(data.msg || 'Failed to update favorite');
+            }
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+            alert(error.toString());
+        }
+    };
+
     const formattedMethod = recipe.method.split(/[\r\n]+/).map((line, index) => (
-        // 用 'div' 替代 'span' 可以自然换行，不需要 <br />
         <div key={index}>
             {line}
         </div>
@@ -66,7 +95,12 @@ const RecipeWithLabelsComponent = ({ recipe }) => {
         <div style={styles.container}>
             <img style={styles.recipeImage} src={`/${recipe.recipePic}`} alt={recipe.recipeName} />
             <div style={styles.recipeContentStyle}>
-                <div style={styles.recipeTitle}>{recipe.recipeName}</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={styles.recipeTitle}>{recipe.recipeName}</div>
+                    <button onClick={toggleFavorite} style={{ fontSize: '24px', border: 'none', background: 'none' }}>
+                        {isFavorite ? '💚️' : '🤍'} {/* Heart icons to indicate favorite status */}
+                    </button>
+                </div>
                 {recipe.labels.map((label, index) => (
                     <span key={index} style={styles.label}>{label}</span>
                 ))}
@@ -79,7 +113,7 @@ const RecipeWithLabelsComponent = ({ recipe }) => {
                 <div style={styles.meta}>
                     <span style={styles.author}>By {recipe.recipeAuthor}</span>
                 </div>
-                <p style={styles.description}>{formattedMethod}</p>
+                <div style={styles.description}>{formattedMethod}</div>
             </div>
         </div>
     );
@@ -89,7 +123,7 @@ const RecipeDetails = () => {
     const [recipeData, setRecipeData] = useState(null);
     const [error, setError] = useState(null);
     const { id } = useParams(); // 使用 useParams 钩子来获取路由参数
-    console.log("id:"+id);
+    //console.log("id:"+id);
 
     useEffect(() => {
 
@@ -104,6 +138,7 @@ const RecipeDetails = () => {
                 .then(data => {
                     if (data.code === 0) {
                         setRecipeData(data.data);
+                        console.log("data.data"+data.data.recipeId);
                     } else {
                         throw new Error(data.msg || 'Error fetching recipe');
                     }
