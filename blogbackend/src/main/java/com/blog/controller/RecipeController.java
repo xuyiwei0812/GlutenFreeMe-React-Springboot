@@ -1,9 +1,6 @@
 package com.blog.controller;
 
-import com.blog.bean.Blog;
-import com.blog.bean.Favorite;
-import com.blog.bean.RecipeWithLabels;
-import com.blog.bean.Response;
+import com.blog.bean.*;
 import com.blog.service.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +62,12 @@ public class RecipeController {
     @PostMapping("/favoriteRecipe")
     public Response<Boolean> favoriteRecipe(@RequestBody Favorite favorite){
         Boolean b = recipeService.favoriteRecipe(favorite);
-        return Response.createSuc(b);
+        if(b != null) {
+            return Response.createSuc(b);
+        }
+        else{
+            return Response.createErr("fail");
+        }
     }
 
     @ResponseBody
@@ -73,6 +75,20 @@ public class RecipeController {
     public Response<Boolean> unfavoriteRecipe(@RequestBody Favorite favorite){
         System.out.println("fav"+favorite.getRecipeId());
         Boolean b = recipeService.unfavoriteRecipe(favorite);
-        return Response.createSuc(b);
+        if(b != null) {
+            return Response.createSuc(b);
+        }
+        else{
+            return Response.createErr("fail");
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getFavByUser")
+    public Response<ArrayList<RecipeWithLabels>> getFavByUser(@RequestBody User user){
+        System.out.println("getFavByUser:"+user.getUserId());
+        ArrayList<RecipeWithLabels> recipeWithLabels = recipeService.getFavByUser(user);
+        if(recipeWithLabels != null) return Response.createSuc(recipeWithLabels);
+        else return Response.createErr("fail");
     }
 }

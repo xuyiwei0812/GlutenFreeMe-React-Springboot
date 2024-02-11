@@ -1,9 +1,6 @@
 package com.blog.service;
 
-import com.blog.bean.Favorite;
-import com.blog.bean.Recipe;
-import com.blog.bean.RecipeLabels;
-import com.blog.bean.RecipeWithLabels;
+import com.blog.bean.*;
 import com.blog.mapper.RecipeMapper;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +70,20 @@ public class RecipeService {
 
     public Boolean unfavoriteRecipe(Favorite favorite){
         return recipeMapper.unfavoriteRecipe(favorite);
+    }
+
+    //Get Fav By User
+    public ArrayList<RecipeWithLabels> getFavByUser(User user){
+        ArrayList<Integer> recipeIdList = recipeMapper.getFavByUser(user);
+        System.out.println("recipeIdList:"+recipeIdList);
+        ArrayList<RecipeWithLabels> recipeWithLabelsList = new ArrayList<>();
+
+        for(Integer i=0;i<recipeIdList.size();i++){
+            RecipeWithLabels recipe = getOneRecipeWithLabels(recipeIdList.get(i));
+            System.out.println("r"+recipe.getRecipeName());
+            recipeWithLabelsList.add(recipe);
+        }
+        return recipeWithLabelsList;
     }
 }
 

@@ -1,9 +1,6 @@
 package com.blog.mapper;
 
-import com.blog.bean.Blog;
-import com.blog.bean.Favorite;
-import com.blog.bean.Recipe;
-import com.blog.bean.RecipeLabels;
+import com.blog.bean.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
@@ -34,4 +31,9 @@ public interface RecipeMapper {
     //Unfavorite
     @Delete("delete from favorite where userId=#{favorite.userId} and recipeId=#{favorite.recipeId}")
     Boolean unfavoriteRecipe(@Param("favorite")Favorite favorite);
+
+    //Get fav by user
+    @Select("select recipeId from favorite where userId=#{user.userId}")
+    ArrayList<Integer> getFavByUser(@Param("user") User user);
+
 }
