@@ -1,0 +1,102 @@
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
+const styles = {
+    recipesContainer: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '20px',
+        margin: '20px',
+    },
+    recipe: {
+        border: '1px solid #ccc',
+        padding: '16px',
+        textAlign: 'center',
+    },
+    image: {
+        maxWidth: '100%',
+        height: 'auto',
+        borderRadius: '8px',
+    },
+    recipeName: {
+        marginTop: '0.5em',
+    },
+    cookTime: {
+        color: '#666',
+        fontSize: '0.9em',
+    },
+};
+
+const Recipe = ({ recipe }) => {
+    const history = useHistory();
+
+    // 点击处理函数
+    const handleClick = () => {
+        history.push(`/recipes/${recipe.recipeId}`);
+    };
+
+    return (
+        <div style={styles.recipe} onClick={handleClick}>
+            <img style={styles.image} src={`/${recipe.recipePic}`} alt={recipe.recipeName} />
+            <h3 style={styles.recipeName}>{recipe.recipeName}</h3>
+            <p style={styles.cookTime}>{recipe.cookTime}</p>
+        </div>
+    );
+};
+
+const FilteredRecipe = () => {
+    const [recipes, setRecipes] = useState([]);
+    const [error, setError] = useState(null);
+    const userObject = JSON.parse(sessionStorage.getItem('user'));
+
+    useEffect(() => {
+        // Make sure you have the userId to send in the request.
+        if (!userObject || !userObject.userId) {
+            console.error('No user id found');
+            return;
+        }
+
+        const fetchFavorites = async () => {
+            try {
+                console.log("user"+userObject.userId);
+                const response = await fetch('http://localhost:2887/api/recipe/getFavByUser', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({userId: userObject.userId})
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+
+                if (data.code === 0 && Array.isArray(data.data)) {
+                    setRecipes(data.data);
+                } else {
+                    throw new Error(data.msg || 'Data is not an array');
+                }
+            } catch (error) {
+                console.error('Error fetching favorites:', error);
+                setError(error.toString());
+            }
+        };
+
+        fetchFavorites();
+    }, []);
+
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    return (
+        <div style={styles.recipesContainer}>
+            {recipes.map((recipe, index) => (
+                <Recipe key={index} recipe={recipe} />
+            ))}
+        </div>
+    );
+};
+
+export default FilteredRecipe;

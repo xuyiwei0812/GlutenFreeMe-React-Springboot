@@ -12,6 +12,7 @@ import FrontPage from "./FrontPage";
 import Recipes from "./Recipes";
 import RecipeDetails from "./RecipeDetails";
 import FilteredRecipe from "./FilteredRecipes";
+import FavoriteRecipe from "./FavoriteRecipes";
 
 function App() {
   return (
@@ -47,6 +48,9 @@ function App() {
             </Route>
             <Route path="/filtered/:label">
               <FilteredRecipe />
+            </Route>
+            <Route path="/favorite">
+              <FavoriteRecipe />
             </Route>
             <Route path="*">
               <NotFound />

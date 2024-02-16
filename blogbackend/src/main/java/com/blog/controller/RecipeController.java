@@ -86,9 +86,21 @@ public class RecipeController {
     @ResponseBody
     @PostMapping("/getFavByUser")
     public Response<ArrayList<RecipeWithLabels>> getFavByUser(@RequestBody User user){
-        System.out.println("getFavByUser:"+user.getUserId());
+        //System.out.println("getFavByUser:"+user.getUserId());
         ArrayList<RecipeWithLabels> recipeWithLabels = recipeService.getFavByUser(user);
         if(recipeWithLabels != null) return Response.createSuc(recipeWithLabels);
+        else return Response.createErr("fail");
+    }
+
+    @ResponseBody
+    @PostMapping("/getFavOrNot")
+    public Response<Boolean> getFavOrNot(@RequestBody Favorite favorite){
+        //System.out.println("getFavOrNot:"+favorite.getUserId()+" "+favorite.getRecipeId());
+        Boolean b = recipeService.getFavOrNot(favorite);
+        //System.out.println("b:"+b);
+        if(b != null) {
+            return Response.createSuc(b);
+        }
         else return Response.createErr("fail");
     }
 }

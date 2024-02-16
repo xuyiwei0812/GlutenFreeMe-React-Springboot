@@ -36,4 +36,8 @@ public interface RecipeMapper {
     @Select("select recipeId from favorite where userId=#{user.userId}")
     ArrayList<Integer> getFavByUser(@Param("user") User user);
 
+    //Get fav or not
+    @Select("select * from favorite where userId=#{userId} and recipeId=#{recipeId}")
+    Favorite GetFavOrNot(@Param("recipeId") Integer recipeId, @Param("userId") Integer userId);
+
 }

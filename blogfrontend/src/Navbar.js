@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import { Link } from 'react-router-dom';
 
 const styles = {
     navbar: {
@@ -109,8 +110,10 @@ const NavBar = () => {
         history.push(`/filtered/${label}`);
     };
 
-    const handleLogout = () => {
+    const handleLogout = (event) => {
+        event.preventDefault();
         logout();
+        sessionStorage.removeItem('user');
         history.push('/login');
     };
 
@@ -150,14 +153,14 @@ const NavBar = () => {
                     onMouseEnter={showRestaurantsDropdown}
                     onMouseLeave={hideRestaurantsDropdown}
                 >
-                <a href="/restaurants" style={{...styles.link, ...styles.restaurantsLink}}>MY HOME</a>
+                <a href="/myhome" style={{...styles.link, ...styles.restaurantsLink}}>MY HOME</a>
                 <div
                     style={{...styles.dropdown2, display: isRestaurantsDropdownVisible ? 'block' : 'none'}}
                     onMouseEnter={showRestaurantsDropdown}  // 鼠标在下拉菜单上保持下拉菜单显示
                 >
                     <div style={styles.dropdownColumn2}>
-                        <div href="/" style={styles.dropdownContent}>MY FAV RECIPES</div>
-                        <div href="/" style={styles.dropdownContent}>MY UPLOADED RECIPES</div>
+                        <Link to="/favorite" style={styles.dropdownContent}>MY FAV RECIPES</Link>
+                        <Link to="/my-uploaded-recipes" style={styles.dropdownContent}>MY UPLOADED RECIPES</Link>
                     </div>
                 </div>
                 </div>

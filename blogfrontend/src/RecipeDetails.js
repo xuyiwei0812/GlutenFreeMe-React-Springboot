@@ -47,21 +47,50 @@ const styles = {
         fontWeight: 'bold',
     },
     recipeContentStyle: {
-        marginLeft: '20px', // Add some space between the image and the content
-        flex: '1', // Take up the remaining space
+        marginLeft: '20px',
+        flex: '1',
         whiteSpace: 'pre-line'
     },
 };
 
 const RecipeWithLabelsComponent = ({ recipe }) => {
-    //console.log(recipe);
-    const [isFavorite, setIsFavorite] = useState(false); // State to track if the recipe is favorited
-    const userObject = JSON.parse(sessionStorage.getItem('user'));
+    const [isFavorite, setIsFavorite] = useState(false);
+    const userObject = JSON.parse(sessionStorage.getItem('user') || 'null');
+
+    //console.log("user"+userObject.userId);
+    //console.log("recipe"+recipe.recipeId);
+
+    useEffect(() => {
+        const checkFavoriteStatus = async () => {
+            if (recipe.recipeId && userObject) {
+                try {
+                    const response = await fetch(`http://localhost:2887/api/recipe/getFavOrNot`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId: userObject.userId, recipeId: recipe.recipeId })
+                    });
+                    const data = await response.json();
+                    console.log("isFav:"+data.data);
+                    if (data.code === 0 && data.data !== undefined) {
+                        setIsFavorite(data.data);
+                    } else {
+                        console.log('Failed to fetch favorite status');
+                    }
+                } catch (error) {
+                    console.error('Error checking favorite status:', error);
+                }
+            }
+        };
+
+        checkFavoriteStatus();
+    }, [recipe.recipeId, userObject?.userId]);
 
     // Function to handle the favorite/unfavorite action
     const toggleFavorite = async () => {
-        console.log("user"+userObject.userId);
-        console.log("recipe"+recipe.recipeId);
+        if (!userObject) {
+            alert('Please log in to use the favorite function');
+            return;
+        }
 
         // Define the endpoint, depending on the current favorite state
         const endpoint = isFavorite ? '/unfavoriteRecipe' : '/favoriteRecipe';
@@ -98,7 +127,7 @@ const RecipeWithLabelsComponent = ({ recipe }) => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={styles.recipeTitle}>{recipe.recipeName}</div>
                     <button onClick={toggleFavorite} style={{ fontSize: '24px', border: 'none', background: 'none' }}>
-                        {isFavorite ? '💚️' : '🤍'} {/* Heart icons to indicate favorite status */}
+                        {userObject ? (isFavorite ? '💚' : '🤍') : '🖤'}{/* Heart icons to indicate favorite status, black heart if not logged in */}
                     </button>
                 </div>
                 {recipe.labels.map((label, index) => (

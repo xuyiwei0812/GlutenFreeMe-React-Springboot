@@ -85,6 +85,16 @@ public class RecipeService {
         }
         return recipeWithLabelsList;
     }
+
+    //Get fav or not
+    public Boolean getFavOrNot(Favorite favorite){
+        Integer userId = favorite.getUserId();
+        Integer recipeId = favorite.getRecipeId();
+        Favorite favorite1 = recipeMapper.GetFavOrNot(recipeId,userId);
+        //System.out.println("fav1:"+favorite1);
+        if(favorite1!=null) return true;
+        else return false;
+    }
 }
 
 
