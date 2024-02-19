@@ -22,20 +22,9 @@ function RecipeUpload() {
         margin: '20px auto',
         padding: '20px',
         border: '1px solid #ccc',
-        borderRadius: '5px'
+        borderRadius: '5px',
+        backgroundColor: '#f1f7e4'
     };
-
-    useEffect(() => {
-        // Check if the user is not logged in when the component mounts
-        if (!userObject) {
-            alert("can't upload a recipe without login");
-        }
-    }, []); // Empty dependency array means this effect runs once on mount
-
-    if (!userObject) {
-        // Return null or a minimal component if the user is not logged in
-        return null; // or return <div>You must be logged in to upload a recipe.</div>
-    }
 
     const inputStyle = {
         marginBottom: '10px',
@@ -66,6 +55,18 @@ function RecipeUpload() {
         fontSize: '16px',
         cursor: 'pointer'
     };
+
+    useEffect(() => {
+        // Check if the user is not logged in when the component mounts
+        if (!userObject) {
+            alert("can't upload a recipe without login");
+        }
+    }, []); // Empty dependency array means this effect runs once on mount
+
+    if (!userObject) {
+        // Return null or a minimal component if the user is not logged in
+        return null; // or return <div>You must be logged in to upload a recipe.</div>
+    }
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;

@@ -152,4 +152,5 @@ public class RecipeController {
         ArrayList<Recipe> recipeArrayList = recipeService.searchRecipes(query);
         return Response.createSuc(recipeArrayList);
     }
+
 }
