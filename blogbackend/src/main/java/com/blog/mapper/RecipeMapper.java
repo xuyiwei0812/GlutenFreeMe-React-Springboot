@@ -40,4 +40,21 @@ public interface RecipeMapper {
     @Select("select * from favorite where userId=#{userId} and recipeId=#{recipeId}")
     Favorite GetFavOrNot(@Param("recipeId") Integer recipeId, @Param("userId") Integer userId);
 
+    //upload recipe
+    @Options(useGeneratedKeys = true, keyProperty = "recipe.recipeId", keyColumn = "recipeId")
+    @Insert("insert into recipe (recipeName, serves, cookTime, ingredients, method, recipeAuthor, recipePic) values(#{recipe.recipeName}, #{recipe.serves}, #{recipe.cookTime}, #{recipe.ingredients}, #{recipe.method}, #{recipe.recipeAuthor}, #{recipe.recipePic})")
+    Boolean uploadRecipe(@Param("recipe")Recipe recipe);
+
+    //get recipeId
+    @Select("select recipeId from recipe where recipeName=#{recipe.recipeName} and recipeAuthor=#{recipe.recipeAuthor}")
+    Integer getRecipeId(@Param("recipe") Recipe recipe);
+
+    //upload labels
+    @Options(useGeneratedKeys = true, keyProperty = "recipeLabels.recipeLabelId", keyColumn = "recipeLabelId")
+    @Insert("insert into recipeLabels (recipeId, label) values(#{recipeId}, #{label})")
+    Boolean uploadRecipeLabels(@Param("recipeId")Integer recipeId, @Param("label") String label);
+
+    //search
+    @Select("select * from recipe where recipeName like '%${keyword}%'")
+    ArrayList<Recipe> searchRecipes(@Param("keyword") String keyword);
 }

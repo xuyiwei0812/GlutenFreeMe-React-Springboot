@@ -13,6 +13,8 @@ import Recipes from "./Recipes";
 import RecipeDetails from "./RecipeDetails";
 import FilteredRecipe from "./FilteredRecipes";
 import FavoriteRecipe from "./FavoriteRecipes";
+import RecipeUpload from "./RecipeUpload";
+import SearchRecipes from "./SearchRecipes";
 
 function App() {
   return (
@@ -51,6 +53,12 @@ function App() {
             </Route>
             <Route path="/favorite">
               <FavoriteRecipe />
+            </Route>
+            <Route path="/upload">
+              <RecipeUpload />
+            </Route>
+            <Route path="/search">
+              <SearchRecipes />
             </Route>
             <Route path="*">
               <NotFound />

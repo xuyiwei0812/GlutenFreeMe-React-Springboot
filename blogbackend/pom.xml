@@ -21,10 +21,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.blog</groupId>
-    <artifactId>Blog</artifactId>
+    <artifactId>GlutenFreeMe</artifactId>
     <version>0.2.5</version>
-    <name>Blog</name>
-    <description>Blog project for Spring Boot</description>
+    <name>GlutenFreeMe</name>
+    <description>GlutenFreeMe project for Spring Boot</description>
     <properties>
         <java.version>14</java.version>
     </properties>

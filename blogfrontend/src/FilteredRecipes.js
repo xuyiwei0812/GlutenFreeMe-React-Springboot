@@ -30,7 +30,6 @@ const styles = {
 const Recipe = ({ recipe }) => {
     const history = useHistory();
 
-    // 点击处理函数
     const handleClick = () => {
         history.push(`/recipes/${recipe.recipeId}`);
     };

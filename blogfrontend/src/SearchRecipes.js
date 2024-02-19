@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const styles = {
     recipesContainer: {
@@ -30,7 +30,6 @@ const styles = {
 const Recipe = ({ recipe }) => {
     const history = useHistory();
 
-    // 点击处理函数
     const handleClick = () => {
         history.push(`/recipes/${recipe.recipeId}`);
     };
@@ -44,43 +43,37 @@ const Recipe = ({ recipe }) => {
     );
 };
 
-const FilteredRecipe = () => {
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+};
+
+const SearchRecipes = () => {
+    const query = useQuery();
+    const searchQuery = query.get('query');
     const [recipes, setRecipes] = useState([]);
     const [error, setError] = useState(null);
-    const userObject = JSON.parse(sessionStorage.getItem('user'));
 
     useEffect(() => {
-        // Make sure you have the userId to send in the request.
-        if (!userObject || !userObject.userId) {
-            console.error('No user id found');
-            return;
-        }
-
-        const fetchFavorites = async () => {
-            try {
-                console.log("user"+userObject.userId);
-                const response = await fetch('http://localhost:2887/api/recipe/getFavByUser', {
-                    method: 'POST',
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({userId: userObject.userId})
-                });
-
-                const data = await response.json();
-
+        // Adjust the fetch URL to your API endpoint that handles search queries
+        fetch(`http://localhost:2887/api/recipe/search?query=${encodeURIComponent(searchQuery)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
                 if (data.code === 0 && Array.isArray(data.data)) {
                     setRecipes(data.data);
                 } else {
                     throw new Error(data.msg || 'Data is not an array');
                 }
-            } catch (error) {
-                console.error('Error fetching favorites:', error);
+            })
+            .catch(error => {
+                console.error('Error fetching recipes:', error);
                 setError(error.toString());
-            }
-        };
-
-        fetchFavorites();
-    }, []);
-
+            });
+    }, [searchQuery]); // Dependency array now depends on searchQuery
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -95,4 +88,4 @@ const FilteredRecipe = () => {
     );
 };
 
-export default FilteredRecipe;
+export default SearchRecipes;

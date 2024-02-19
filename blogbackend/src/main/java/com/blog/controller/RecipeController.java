@@ -1,9 +1,11 @@
 package com.blog.controller;
 
 import com.blog.bean.*;
+import com.blog.mapper.RecipeMapper;
 import com.blog.service.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -16,6 +18,9 @@ public class RecipeController {
 
     @Resource
     RecipeService recipeService;
+
+    @Resource
+    RecipeMapper recipeMapper;
 
     @ResponseBody
     @GetMapping("/getAllRecipes")
@@ -102,5 +107,49 @@ public class RecipeController {
             return Response.createSuc(b);
         }
         else return Response.createErr("fail");
+    }
+
+    @ResponseBody
+    @PostMapping("/upload")
+    public Response<Boolean> uploadRecipe(
+            @RequestParam("recipeName") String recipeName,
+            @RequestParam("serves") String serves,
+            @RequestParam("cookTime") String cookTime,
+            @RequestParam("ingredients") String ingredients,
+            @RequestParam("method") String method,
+            @RequestParam("recipeAuthor") String recipeAuthor,
+            @RequestParam("mealType") String mealType,
+            @RequestParam("mainIngredients") String[] mainIngredients,
+            @RequestParam("recipePic") MultipartFile file) {
+        System.out.println("upload:"+file);
+        Recipe recipe = new Recipe();
+        recipe.setRecipeName(recipeName);
+        recipe.setServes(serves);
+        recipe.setCookTime(cookTime);
+        recipe.setIngredients(ingredients);
+        recipe.setMethod(method);
+        recipe.setRecipeAuthor(recipeAuthor);
+
+        System.out.println("mi:"+mainIngredients);
+
+        Boolean b = recipeService.saveRecipe(recipe, file);
+
+        Integer recipeId = recipeMapper.getRecipeId(recipe);
+        recipeService.uploadRecipeLabels(recipeId,mealType);
+        for(Integer i=0; i<mainIngredients.length; i++){
+            String label = mainIngredients[i];
+            recipeService.uploadRecipeLabels(recipeId,label);
+        }
+
+        if(b!=null) return Response.createSuc(b);
+        else return Response.createErr("fail");
+    }
+
+    @ResponseBody
+    @GetMapping("/search")
+    public Response<ArrayList<Recipe>> searchRecipes(@RequestParam String query) {
+        System.out.println("keyword:"+query);
+        ArrayList<Recipe> recipeArrayList = recipeService.searchRecipes(query);
+        return Response.createSuc(recipeArrayList);
     }
 }

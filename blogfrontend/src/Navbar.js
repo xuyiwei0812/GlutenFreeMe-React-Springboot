@@ -97,6 +97,11 @@ const NavBar = () => {
     const [isRecipesDropdownVisible, setIsRecipesDropdownVisible] = useState(false);
     const [isRestaurantsDropdownVisible, setIsRestaurantsDropdownVisible] = useState(false);
 
+    const [isSearchVisible, setIsSearchVisible] = useState(false); // Added state for search visibility
+    const toggleSearch = () => setIsSearchVisible(!isSearchVisible);
+
+    const [searchQuery, setSearchQuery] = useState('');
+
     const showRecipesDropdown = () => setIsRecipesDropdownVisible(true);
     const hideRecipesDropdown = () => setIsRecipesDropdownVisible(false);
 
@@ -115,6 +120,18 @@ const NavBar = () => {
         logout();
         sessionStorage.removeItem('user');
         history.push('/login');
+    };
+
+    // Function to handle the Enter key press inside the search input
+    const handleSearchKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            history.push(`/search?query=${encodeURIComponent(searchQuery)}`); // Navigate to /search route with query
+        }
+    };
+
+    // Function to update the search query state
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
     };
 
     return (
@@ -160,7 +177,7 @@ const NavBar = () => {
                 >
                     <div style={styles.dropdownColumn2}>
                         <Link to="/favorite" style={styles.dropdownContent}>MY FAV RECIPES</Link>
-                        <Link to="/my-uploaded-recipes" style={styles.dropdownContent}>MY UPLOADED RECIPES</Link>
+                        <Link to="/upload" style={styles.dropdownContent}>UPLOAD A RECIPE</Link>
                     </div>
                 </div>
                 </div>
@@ -172,7 +189,23 @@ const NavBar = () => {
                 ) : (
                     <a href="/login" style={styles.link}>LOG IN</a>
                 )}
-                <button style={styles.searchButton}>SEARCH</button>
+                <div style={styles.navbarEnd}>
+                    {isSearchVisible && (
+                        <input
+                            type="text"
+                            placeholder="Search for anything"
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            onKeyDown={handleSearchKeyDown}
+                            style={{
+                                padding: '10px',
+                                marginRight: '10px',
+                                fontSize: '16px',
+                            }}
+                        />
+                    )}
+                    <button onClick={toggleSearch} style={styles.searchButton}>SEARCH</button>
+            </div>
             </div>
         </nav>
     );

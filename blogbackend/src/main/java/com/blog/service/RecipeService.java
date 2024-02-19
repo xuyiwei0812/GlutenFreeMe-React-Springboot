@@ -7,6 +7,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 @Service
 public class RecipeService {
 
@@ -95,6 +102,39 @@ public class RecipeService {
         if(favorite1!=null) return true;
         else return false;
     }
+
+    //save recipe
+    public Boolean saveRecipe(Recipe recipe, MultipartFile file) {
+        try {
+            // This part is not standard way to do it, you shouldn't make backend directly store something into frontend.
+            // I'm just trying to make it easier because this project's mainly about learning how to use React.js.
+            String frontendStaticDir = "/Users/lunaxu/IdeaProjects/ReactBlog/blogfrontend/public/img/";
+
+            String filename = StringUtils.cleanPath(file.getOriginalFilename());
+            Path filePath = Paths.get(frontendStaticDir, filename);
+
+            Files.createDirectories(filePath.getParent());
+
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            recipe.setRecipePic("img/"+filename);
+
+            return recipeMapper.uploadRecipe(recipe);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to store file " + file.getOriginalFilename(), e);
+        }
+    }
+
+    //upload recipe labels
+    public Boolean uploadRecipeLabels(Integer recipeId, String label){
+        return recipeMapper.uploadRecipeLabels(recipeId,label);
+    }
+
+    //search
+    public ArrayList<Recipe> searchRecipes(String keyword){
+        return recipeMapper.searchRecipes(keyword);
+    }
+
 }
 
 
