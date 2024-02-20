@@ -1,9 +1,6 @@
 import Navbar from './Navbar';
-import Home from './Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
-import Create from './Create'
-import BlogDetails from './BlogDetails';
 import NotFound from "./NotFound";
 import Login from "./Login";
 import React from 'react';
@@ -26,15 +23,6 @@ function App() {
           <Switch>
             <Route exact path="/">
               <FrontPage />
-            </Route>
-            <Route exact path="/home">
-              <Home />
-            </Route>
-            <Route path="/create">
-              <Create />
-            </Route>
-            <Route path="/blogs/:id">
-              <BlogDetails />
             </Route>
             <Route path="/login">
               <Login />

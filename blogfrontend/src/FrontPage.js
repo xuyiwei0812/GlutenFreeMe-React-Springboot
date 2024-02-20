@@ -6,10 +6,7 @@ return (
     <div>
 <br/>
 <br/>
-        {/* 在这里使用Carousel组件 */}
         <Carousel />
-
-        {/* ... 其他的主页内容 ... */}
     </div>
 );
 };
