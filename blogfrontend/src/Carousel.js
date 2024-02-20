@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// 假设你有三个图片在你的公共文件夹或者通过URL可以访问
-const slideImages = ['img/4.jpg', 'img/2.jpg', 'img/5.jpg']; // 根据实际情况替换路径
+const slideImages = ['img/4.jpg', 'img/2.jpg', 'img/5.jpg'];
 
 const styles = {
     carouselContainer: {

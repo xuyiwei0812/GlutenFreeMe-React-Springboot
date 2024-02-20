@@ -7,9 +7,9 @@ const styles = {
     navbar: {
         backgroundColor: '#00bfa5',
         display: 'flex',
-        justifyContent: 'space-between',//菜单项之间的空间均匀分布
-        alignItems: 'center',//垂直居中对齐
-        padding: '10px 100px',//垂直方向和水平方向的内边距
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '10px 100px',
     },
     navbarBrand: {
         fontSize: '32px',
@@ -149,7 +149,7 @@ const NavBar = () => {
                     <a href="/recipes" style={styles.link}>DISCOVER</a>
                     <div
                         style={{...styles.dropdown, display: isRecipesDropdownVisible ? 'block' : 'none'}}
-                        onMouseEnter={showRecipesDropdown}  // 鼠标在下拉菜单上保持下拉菜单显示
+                        onMouseEnter={showRecipesDropdown}
                     >
                         <div style={styles.dropdownColumn}>
                             <div style={styles.dropdownColumnHeader}>MEALS & COURSES</div>
@@ -173,7 +173,7 @@ const NavBar = () => {
                 <a href="/myhome" style={{...styles.link, ...styles.restaurantsLink}}>MY HOME</a>
                 <div
                     style={{...styles.dropdown2, display: isRestaurantsDropdownVisible ? 'block' : 'none'}}
-                    onMouseEnter={showRestaurantsDropdown}  // 鼠标在下拉菜单上保持下拉菜单显示
+                    onMouseEnter={showRestaurantsDropdown}
                 >
                     <div style={styles.dropdownColumn2}>
                         <Link to="/favorite" style={styles.dropdownContent}>MY FAV RECIPES</Link>

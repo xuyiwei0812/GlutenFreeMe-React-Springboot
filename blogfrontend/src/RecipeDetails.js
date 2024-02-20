@@ -151,7 +151,7 @@ const RecipeWithLabelsComponent = ({ recipe }) => {
 const RecipeDetails = () => {
     const [recipeData, setRecipeData] = useState(null);
     const [error, setError] = useState(null);
-    const { id } = useParams(); // 使用 useParams 钩子来获取路由参数
+    const { id } = useParams();
     //console.log("id:"+id);
 
     useEffect(() => {
