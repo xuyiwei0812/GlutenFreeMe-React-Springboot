@@ -4,7 +4,6 @@ import Carousel from "./Carousel";
 const FrontPage = () => {
 return (
     <div>
-        {/* ... 其他的主页内容 ... */}
 <br/>
 <br/>
         {/* 在这里使用Carousel组件 */}
