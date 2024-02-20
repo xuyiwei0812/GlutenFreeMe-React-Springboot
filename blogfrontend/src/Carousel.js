@@ -49,11 +49,6 @@ const Carousel = () => {
             title: 'EASY GLUTEN FREE RECIPES',
             description: 'Savor simplicity and flavor with our quick and delightful gluten-free recipes',
         },
-        {
-            img: slideImages[2],
-            title: 'FIND GLUTEN FREE RESTAURANTS',
-            description: 'Explore local delights! Discover the best gluten-free dining options right in your neighborhood',
-        },
     ];
 
     useEffect(() => {
